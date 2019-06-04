@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: ms_challenge
+
+datasource:
+  postgre:
+    query-timeout: 30
+    jdbcUrl: "jdbc:postgresql://localhost:5432/postgres"
+    username: "postgres"
+    password: "secretpassword"
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    validationQuery: SELECT 1
+    hikari:
+      connection-timeout: 30000
+
+management:
+  info:
+    git:
+      mode: full
+  endpoints:
+    beans.enabled: false
+    web.exposure.include: "*"
