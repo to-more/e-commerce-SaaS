@@ -25,7 +25,7 @@ CREATE TABLE merchants (
 CREATE TABLE sales (
   id serial PRIMARY KEY,
   creation_date date NOT NULL,
-  product int NOT NULL,
+  product varchar NOT NULL,
   amount numeric NOT NULL,
   merchant_id int NOT NULL,
   CONSTRAINT fk_merchant_id FOREIGN KEY (merchant_id) REFERENCES merchants(id) ON DELETE CASCADE

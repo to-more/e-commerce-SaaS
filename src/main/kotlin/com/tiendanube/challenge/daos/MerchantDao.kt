@@ -82,10 +82,10 @@ interface MerchantDao: CrudRepository<Merchant, Long> {
   @Modifying
   @Query("""
     insert into sales(id, creation_date, product, amount, merchant_id)
-    values(:idSale, :creationDate, :product, amount, :idMerchant)
+    values(:idSale, :creationDate, :product, :amount, :idMerchant)
   """)
   fun saveSale(
-    @Param("id") idSale: Long,
+    @Param("idSale") idSale: Long,
     @Param("creationDate") creationDate: LocalDate,
     @Param("product") product: String,
     @Param("amount") amount: Double,

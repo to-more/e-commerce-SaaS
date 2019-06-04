@@ -132,4 +132,82 @@ class IntegrationSpec {
       .then()
         .statusCode(HttpStatus.NOT_FOUND.value())
   }
+
+  @Test
+  fun testUpdateMerchant() {
+    given()
+      .contentType("application/json")
+      .body("""
+       {
+        "id": 1,
+        "name": "Test",
+        "email": "mail@mail.io",
+        "phone": "1234566",
+        "address": "Address"
+       }
+      """)
+      .`when`()
+      .post("/merchants")
+      .then()
+      .statusCode(HttpStatus.CREATED.value())
+    get("/merchants/1")
+      .then()
+      .body("name", equalTo("Test"))
+    given()
+      .contentType("application/json")
+      .body("""
+        {
+        "id": 1,
+        "name": "Tom",
+        "email": "mail@mail.io",
+        "phone": "1234566",
+        "address": "Address"
+       }
+      """)
+      .`when`()
+      .put("/merchants/1")
+      .then()
+      .statusCode(HttpStatus.OK.value())
+    get("/merchants/1")
+      .then()
+      .body("name", equalTo("Tom"))
+  }
+
+  @Test
+  fun testUpdateSale(){
+    given()
+      .contentType("application/json")
+      .body("""
+       {
+        "id": 1,
+        "name": "Test",
+        "email": "mail@mail.io",
+        "phone": "1234566",
+        "address": "Address"
+       }
+      """)
+      .`when`()
+        .post("/merchants")
+      .then()
+        .statusCode(HttpStatus.CREATED.value())
+    get("/merchants/1")
+      .then()
+        .body("name", equalTo("Test"))
+    given()
+      .contentType("application/json")
+      .body("""
+        {
+        "id": 1,
+        "product": "sale-test",
+        "amount": 200.23
+       }
+      """)
+      .`when`()
+        .put("/merchants/1/sale")
+      .then()
+        .statusCode(HttpStatus.OK.value())
+    get("/merchants/1")
+      .then()
+        .body("sales[0].product", equalTo("sale-test"))
+  }
 }
