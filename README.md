@@ -6,11 +6,12 @@
 ## Stack
  * kotlin 1.3
  * spring-boot 2
- * spring-data-jdbc 2
+ * spring-data-jdbc
  * arrow-kt 0.9.0
- * kotlin-test 3
+ * kotlin-test
  * junit 5
  * test-containers
+ * rest-assured
 
 ## Buildear proyecto
 ```bash
