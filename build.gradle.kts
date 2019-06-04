@@ -34,7 +34,7 @@ dependencies {
 	implementation("io.arrow-kt:arrow-effects-extensions:0.9.0")
 
 	runtimeOnly("org.postgresql:postgresql")
-	testImplementation("io.rest-assured:rest-assured:4.0.0")
+	testImplementation("io.rest-assured:rest-assured:3.3.0")
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(module = "junit")
 	}
