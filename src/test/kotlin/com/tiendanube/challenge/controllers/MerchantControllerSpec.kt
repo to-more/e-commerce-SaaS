@@ -127,7 +127,7 @@ class MerchantControllerSpec: BehaviorSpec({
     }
     `when`("Delete by id"){
       then("delete with no errors") {
-        doReturn(Either.right(Unit)).`when`(ecommerceService).delete(1L)
+        doReturn(Either.right(1L)).`when`(ecommerceService).delete(1L)
         shouldNotThrow<Throwable> {
           val response = mockMvc.perform(delete("/merchants/1")).andReturn().response
           response.status shouldBe HttpStatus.OK.value()

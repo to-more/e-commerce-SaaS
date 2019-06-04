@@ -127,13 +127,13 @@ class EcommerceServiceSpec: BehaviorSpec({
 
       then("delete with no errors") {
         doReturn(merchant).`when`(merchantDao).getById(1)
-        doNothing().`when`(merchantDao).deleteById(1)
+        doReturn(1L).`when`(merchantDao).deleteSales(1)
+        doReturn(1L).`when`(merchantDao).deleteMerchant(1)
         ecommerceService.delete(1L).isRight() shouldBe true
       }
 
       then("not found merchant when try to delete") {
         doThrow(EmptyResultDataAccessException::class.java).`when`(merchantDao).getById(1)
-        doNothing().`when`(merchantDao).deleteById(1)
         shouldNotThrow<Throwable> {
           val response = ecommerceService.delete(1L)
           ((response as Either.Left<*>).a is NoResourceFoundException) shouldBe true
@@ -142,7 +142,8 @@ class EcommerceServiceSpec: BehaviorSpec({
 
       then("delete with errors") {
         doReturn(merchant).`when`(merchantDao).getById(1)
-        doThrow(QueryTimeoutException::class.java).`when`(merchantDao).deleteById(1)
+        doReturn(1L).`when`(merchantDao).deleteSales(1)
+        doThrow(QueryTimeoutException::class.java).`when`(merchantDao).deleteMerchant(1)
         shouldNotThrow<Throwable> {
           ecommerceService.delete(1L).isLeft() shouldBe true
         }
@@ -177,7 +178,7 @@ class EcommerceServiceSpec: BehaviorSpec({
     }
 
     `when`("update plan of a merchant") {
-      
+
       then("sale added with no errors") {
         doReturn(merchant).`when`(merchantDao).getById(1)
         doReturn(1L).`when`(merchantDao).updatePlan(merchant.id, plan.id)

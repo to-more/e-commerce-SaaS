@@ -3,8 +3,7 @@ package com.tiendanube.challenge.integration
 import com.tiendanube.challenge.ChallengeApplication
 import com.tiendanube.challenge.model.Plan
 import io.restassured.RestAssured
-import io.restassured.RestAssured.get
-import io.restassured.RestAssured.given
+import io.restassured.RestAssured.*
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
@@ -12,12 +11,12 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.http.HttpStatus
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.context.jdbc.SqlGroup
 import org.testcontainers.containers.PostgreSQLContainer
-
-
+import javax.annotation.PostConstruct
 
 
 class KPostgreSQLContainer(imageName: String): PostgreSQLContainer<KPostgreSQLContainer>(imageName)
@@ -32,11 +31,16 @@ class KPostgreSQLContainer(imageName: String): PostgreSQLContainer<KPostgreSQLCo
 )
 class IntegrationSpec {
 
+  @Autowired
+  lateinit var namedParametersJdbcTemplate: NamedParameterJdbcTemplate
+
   @LocalServerPort
   var serverPort: Int = 0
 
-  @Autowired
-  lateinit var namedParametersJdbcTemplate: NamedParameterJdbcTemplate
+  @PostConstruct
+  fun postConstruct(){
+    RestAssured.port = serverPort
+  }
 
   companion object {
 
@@ -81,7 +85,6 @@ class IntegrationSpec {
 
   @Test
   fun testGetMerchant(){
-    RestAssured.port = serverPort
     given()
       .contentType("application/json")
       .body("""
@@ -96,9 +99,37 @@ class IntegrationSpec {
       .`when`()
         .post("/merchants")
       .then()
-        .statusCode(201)
+        .statusCode(HttpStatus.CREATED.value())
     get("/merchants/1")
       .then()
         .body("name", equalTo("Test"))
+  }
+
+  @Test
+  fun testDeleteMerchant(){
+    given()
+      .contentType("application/json")
+      .body("""
+       {
+        "id": 1,
+        "name": "Test",
+        "email": "mail@mail.io",
+        "phone": "1234566",
+        "address": "Address"
+       }
+      """)
+      .`when`()
+        .post("/merchants")
+      .then()
+        .statusCode(HttpStatus.CREATED.value())
+    get("/merchants/1")
+      .then()
+        .body("name", equalTo("Test"))
+    delete("/merchants/1")
+      .then()
+        .statusCode(HttpStatus.OK.value())
+    get("/merchants/1")
+      .then()
+        .statusCode(HttpStatus.NOT_FOUND.value())
   }
 }

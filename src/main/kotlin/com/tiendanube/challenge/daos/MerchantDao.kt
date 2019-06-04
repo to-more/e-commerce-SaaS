@@ -73,11 +73,13 @@ interface MerchantDao: CrudRepository<Merchant, Long> {
     """)
   fun getById(@Param("id") id: Long): Merchant
 
+  @Modifying
   @Query("""
     update merchants set plan_id = :idPlan where id = :id
   """)
   fun updatePlan(@Param("id") id: Long, @Param("idPlan") idPlan: Long): Long
 
+  @Modifying
   @Query("""
     insert into sales(id, creation_date, product, amount, merchant_id)
     values(:idSale, :creationDate, :product, amount, :idMerchant)
@@ -89,4 +91,16 @@ interface MerchantDao: CrudRepository<Merchant, Long> {
     @Param("amount") amount: Double,
     @Param("idMerchant") merchant: Long
   ): Long
+
+  @Modifying
+  @Query("""
+    DELETE FROM sales WHERE merchant_id = :idMerchant
+  """)
+  fun deleteSales(@Param("idMerchant") idMerchant: Long): Long
+
+  @Modifying
+  @Query("""
+    DELETE FROM merchants WHERE id = :idMerchant
+  """)
+  fun deleteMerchant(@Param("idMerchant") idMerchant: Long): Long
 }

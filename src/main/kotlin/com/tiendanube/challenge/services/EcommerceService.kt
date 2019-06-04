@@ -94,11 +94,14 @@ class EcommerceService {
     }
   }
 
-  fun delete(merchantId: Long): Either<Throwable, Unit> = logger.benchmark("call merchant dao with $merchantId") {
+  fun delete(merchantId: Long): Either<Throwable, Long> = logger.benchmark("call merchant dao with $merchantId") {
     findById(merchantId).fold({
       Either.left(it)
     }, {
-      Try { merchantDao.deleteById(it.id) }.toEither()
+      Try {
+        merchantDao.deleteSales(it.id)
+        merchantDao.deleteMerchant(it.id)
+      }.toEither()
     })
   }
 
