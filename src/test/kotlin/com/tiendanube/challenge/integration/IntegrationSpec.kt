@@ -210,4 +210,79 @@ class IntegrationSpec {
       .then()
         .body("sales[0].product", equalTo("sale-test"))
   }
+
+  @Test
+  fun testUpdatePlan(){
+    given()
+      .contentType("application/json")
+      .body("""
+       {
+        "id": 1,
+        "name": "Test",
+        "email": "mail@mail.io",
+        "phone": "1234566",
+        "address": "Address"
+       }
+      """)
+      .`when`()
+        .post("/merchants")
+      .then()
+        .statusCode(HttpStatus.CREATED.value())
+    get("/merchants/1")
+      .then()
+        .body("name", equalTo("Test"))
+    given()
+      .contentType("application/json")
+      .body("""
+        {
+        "id": 1,
+        "name": "Basic",
+        "fee": 2
+       }
+      """)
+      .`when`()
+        .put("/merchants/1/plan")
+      .then()
+        .statusCode(HttpStatus.OK.value())
+    get("/merchants/1")
+      .then()
+        .body("plan.name", equalTo("Basic"))
+  }
+
+  @Test
+  fun duplicateCreation(){
+    given()
+      .contentType("application/json")
+      .body("""
+       {
+        "id": 1,
+        "name": "Test",
+        "email": "mail@mail.io",
+        "phone": "1234566",
+        "address": "Address"
+       }
+      """)
+      .`when`()
+        .post("/merchants")
+      .then()
+        .statusCode(HttpStatus.CREATED.value())
+    get("/merchants/1")
+      .then()
+        .body("name", equalTo("Test"))
+    given()
+      .contentType("application/json")
+      .body("""
+       {
+        "id": 1,
+        "name": "Test",
+        "email": "mail@mail.io",
+        "phone": "1234566",
+        "address": "Address"
+       }
+      """)
+      .`when`()
+        .post("/merchants")
+      .then()
+        .statusCode(HttpStatus.CONFLICT.value())
+  }
 }
