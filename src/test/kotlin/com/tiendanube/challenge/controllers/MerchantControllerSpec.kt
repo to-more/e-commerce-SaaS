@@ -39,7 +39,7 @@ class MerchantControllerSpec: BehaviorSpec({
     `when`("save of merchant") {
 
       then("create without errors") {
-        doReturn(Either.right(1L)).`when`(ecommerceService).saveMerchant(merchantDto)
+        doReturn(Either.right(merchant)).`when`(ecommerceService).saveMerchant(merchantDto)
         shouldNotThrow<Throwable> {
           val response = mockMvc.perform(
             post("/merchants").contentType(MediaType.APPLICATION_JSON).content("""
