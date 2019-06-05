@@ -143,7 +143,7 @@ class MerchantController {
   }
 
   @GetMapping("/{id}/bill")
-  fun updateSale(
+  fun getBill(
     @PathVariable("id") id: Long
   ) = logger.benchmark("Get bill for merchant $id") {
     ecommerceService.getBill(id).fold({
