@@ -329,16 +329,16 @@ class MerchantControllerSpec: BehaviorSpec({
         }
       }
       then("get bill with not found errors") {
-        doReturn(Either.left(NoResourceFoundException("Not found"))).`when`(ecommerceService).findById(1L)
+        doReturn(Either.left(NoResourceFoundException("Not found"))).`when`(ecommerceService).getBill(1L)
         shouldNotThrow<Throwable> {
-          val response = mockMvc.perform(get("/merchants/1")).andReturn().response
+          val response = mockMvc.perform(get("/merchants/1/bill")).andReturn().response
           response.status shouldBe HttpStatus.NOT_FOUND.value()
         }
       }
       then("get bill with errors") {
-        doReturn(Either.left(QueryTimeoutException("Exception"))).`when`(ecommerceService).findById(1L)
+        doReturn(Either.left(QueryTimeoutException("Exception"))).`when`(ecommerceService).getBill(1L)
         shouldNotThrow<Throwable> {
-          val response = mockMvc.perform(get("/merchants/1")).andReturn().response
+          val response = mockMvc.perform(get("/merchants/1/bill")).andReturn().response
           response.status shouldBe HttpStatus.INTERNAL_SERVER_ERROR.value()
         }
       }
