@@ -4,6 +4,7 @@ import arrow.core.Either
 import com.tiendanube.challenge.dtos.MerchantDto
 import com.tiendanube.challenge.exceptions.MerchantAlreadyExistException
 import com.tiendanube.challenge.exceptions.NoResourceFoundException
+import com.tiendanube.challenge.model.Bill
 import com.tiendanube.challenge.model.Merchant
 import com.tiendanube.challenge.model.Plan
 import com.tiendanube.challenge.model.Sale
@@ -19,6 +20,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup
 import java.time.LocalDate
+import java.util.*
 
 /**
  * Created by tomReq on 6/3/19.
@@ -313,6 +315,30 @@ class MerchantControllerSpec: BehaviorSpec({
               "amount": 200.0
               }
               """)).andReturn().response
+          response.status shouldBe HttpStatus.INTERNAL_SERVER_ERROR.value()
+        }
+      }
+    }
+    `when`("Get bill by id"){
+      then("get with no errors") {
+        val bill = Bill(UUID.randomUUID(), LocalDate.now(), 100.0, 23.0)
+        doReturn(Either.right(bill)).`when`(ecommerceService).getBill(1L)
+        shouldNotThrow<Throwable> {
+          val response = mockMvc.perform(get("/merchants/1/bill")).andReturn().response
+          response.status shouldBe HttpStatus.OK.value()
+        }
+      }
+      then("get bill with not found errors") {
+        doReturn(Either.left(NoResourceFoundException("Not found"))).`when`(ecommerceService).findById(1L)
+        shouldNotThrow<Throwable> {
+          val response = mockMvc.perform(get("/merchants/1")).andReturn().response
+          response.status shouldBe HttpStatus.NOT_FOUND.value()
+        }
+      }
+      then("get bill with errors") {
+        doReturn(Either.left(QueryTimeoutException("Exception"))).`when`(ecommerceService).findById(1L)
+        shouldNotThrow<Throwable> {
+          val response = mockMvc.perform(get("/merchants/1")).andReturn().response
           response.status shouldBe HttpStatus.INTERNAL_SERVER_ERROR.value()
         }
       }

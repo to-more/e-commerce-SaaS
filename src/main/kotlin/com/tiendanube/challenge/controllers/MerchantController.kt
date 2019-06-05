@@ -141,4 +141,15 @@ class MerchantController {
       it
     })
   }
+
+  @GetMapping("/{id}/bill")
+  fun updateSale(
+    @PathVariable("id") id: Long
+  ) = logger.benchmark("Get bill for merchant $id") {
+    ecommerceService.getBill(id).fold({
+      errorHandler.handle(it)
+    }, {
+      ResponseEntity.ok(it)
+    })
+  }
 }

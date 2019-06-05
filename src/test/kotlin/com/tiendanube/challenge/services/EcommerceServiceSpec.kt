@@ -204,5 +204,33 @@ class EcommerceServiceSpec: BehaviorSpec({
         }
       }
     }
+
+    `when`("generations of bill for merchant") {
+      val sales = arrayListOf(Sale(1, "sale", 200.0, LocalDate.now()))
+      then("return bill with no errors") {
+        doReturn(merchant).`when`(merchantDao).getById(1)
+        doReturn(sales).`when`(merchantDao).getSales(merchant.id)
+        shouldNotThrow<Throwable> {
+          ecommerceService.getBill(1L).isRight() shouldBe true
+        }
+      }
+
+      then("not found merchant when try to get bill") {
+        doThrow(EmptyResultDataAccessException::class.java).`when`(merchantDao).getById(1)
+        shouldNotThrow<Throwable> {
+          val response = ecommerceService.getBill(1L)
+          ((response as Either.Left<*>).a is NoResourceFoundException) shouldBe true
+        }
+      }
+
+      then("bill generation with errors") {
+        doReturn(merchant).`when`(merchantDao).getById(1)
+        doThrow(QueryTimeoutException::class.java)
+          .`when`(merchantDao).getSales(merchant.id)
+        shouldNotThrow<Throwable> {
+          ecommerceService.getBill(1L).isLeft() shouldBe true
+        }
+      }
+    }
   }
 })

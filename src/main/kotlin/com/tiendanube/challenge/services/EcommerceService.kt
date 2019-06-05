@@ -8,6 +8,8 @@ import com.tiendanube.challenge.dtos.MerchantDto
 import com.tiendanube.challenge.exceptions.MerchantAlreadyExistException
 import com.tiendanube.challenge.exceptions.NoResourceFoundException
 import com.tiendanube.challenge.extensions.benchmark
+import com.tiendanube.challenge.extensions.percentage
+import com.tiendanube.challenge.model.Bill
 import com.tiendanube.challenge.model.Merchant
 import com.tiendanube.challenge.model.Plan
 import com.tiendanube.challenge.model.Sale
@@ -16,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Service
+import java.time.LocalDate
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Created by tomReq on 6/3/19.
@@ -132,6 +137,24 @@ class EcommerceService {
       Try {
         merchantDao.updatePlan(it.id, plan.id)
         it.copy(plan = merchantDao.getPlan(plan.id))
+      }.toEither()
+    })
+  }
+
+  fun getBill(
+    id: Long
+  ): Either<Throwable, Bill> = logger.benchmark("Bill generation for merchant $id") {
+    findById(id).fold({
+      Either.left(it)
+    }, {
+      Try {
+        val sales = merchantDao.getSales(id)
+        Bill(
+          UUID.randomUUID(),
+          LocalDate.now(),
+          sales.map { it.amount }.sum(),
+          sales.map { sale -> sale.amount percentage it.plan?.fee }.sum()
+        )
       }.toEither()
     })
   }

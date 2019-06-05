@@ -12,9 +12,10 @@ class BillSpec: BehaviorSpec({
   given("a bill properties") {
     val date = LocalDate.of(2019, 6, 2)
     val totalAmount = 100.0
+    val totalFee = 100.0
     val code = UUID.randomUUID()
     `when`("it creates a bill") {
-      val bill = Bill(code, date, totalAmount)
+      val bill = Bill(code, date, totalAmount, totalFee)
       then("should be equals") {
         bill.code shouldBe code
         bill.creationDate shouldBe date

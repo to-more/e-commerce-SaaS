@@ -4,6 +4,7 @@ import com.tiendanube.challenge.ChallengeApplication
 import com.tiendanube.challenge.model.Plan
 import io.restassured.RestAssured
 import io.restassured.RestAssured.*
+import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
@@ -284,5 +285,60 @@ class IntegrationSpec {
         .post("/merchants")
       .then()
         .statusCode(HttpStatus.CONFLICT.value())
+  }
+  @Test
+  fun getBill(){
+    given()
+      .contentType("application/json")
+      .body("""
+       {
+        "id": 1,
+        "name": "Test",
+        "email": "mail@mail.io",
+        "phone": "1234566",
+        "address": "Address"
+       }
+      """)
+      .`when`()
+      .post("/merchants")
+      .then()
+      .statusCode(HttpStatus.CREATED.value())
+
+    given()
+      .contentType("application/json")
+      .body("""
+        {
+        "id": 1,
+        "name": "Basic",
+        "fee": 2
+       }
+      """)
+      .`when`()
+      .put("/merchants/1/plan")
+      .then()
+      .statusCode(HttpStatus.OK.value())
+
+    get("/merchants/1")
+      .then()
+      .body("name", equalTo("Test"))
+    given()
+      .contentType("application/json")
+      .body("""
+        {
+        "id": 1,
+        "product": "sale-test",
+        "amount": 200.0
+       }
+      """)
+      .`when`()
+      .put("/merchants/1/sale")
+      .then()
+      .statusCode(HttpStatus.OK.value())
+
+    get("/merchants/1/bill")
+      .then()
+        .body("total_amount", `is`(200.0f))
+          .and()
+            .body("total_fee", `is`(4.0f))
   }
 }
