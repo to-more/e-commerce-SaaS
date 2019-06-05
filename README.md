@@ -2,14 +2,12 @@
 
 
 # Solution
+* [REST Resources](/doc/merchant.md)
 * [Stack](#stack)
 * [Build](#gradle-build)
 * [Docker build/run](#docker-build-and-run)
 * [Test](#run-test)
 * [Tech and design concerns](#tech-and-design-concerns)
-
-## REST Resources
-* [Merchant](/doc/merchant.md)
 
 ## Stack
  * kotlin 1.3
