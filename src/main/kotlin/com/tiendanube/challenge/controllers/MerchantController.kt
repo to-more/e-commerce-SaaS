@@ -68,7 +68,7 @@ class MerchantController {
           uriComponentsBuilder.path("/merchants/{id}")
             .buildAndExpand(merchantDto.id)
             .toUri()
-        ).build()
+        ).body(it)
       })
     },{
       BadRequestException(result)
