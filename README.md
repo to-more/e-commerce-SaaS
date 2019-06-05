@@ -2,7 +2,11 @@
 
 
 # Solución
-
+* [Stack](/#stack)
+* [Build](/#stack)
+* [Test](/#stack)
+* [Consideraciones técnicas](/#stack)
+* [Consideraciones técnicas](/#stack)
 ## Stack
  * kotlin 1.3
  * spring-boot 2
@@ -15,11 +19,11 @@
 
 ## Buildear proyecto
 ```bash
-	./gradlew build
+./gradlew build
 ```
 ## Correr test
 ```bash
-	./gradlew test
+./gradlew test
 ```
 
 ## Consideraciones de diseño y técnicas
