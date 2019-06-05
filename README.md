@@ -6,7 +6,7 @@
 * [Build](#gradle-build)
 * [Docker build](#docker-build)
 * [Test](#run-test)
-* [Consideraciones técnicas](#consideraciones-de-diseño-y-técnicas)
+* [Consideraciones técnicas](#tech-and-design-concerns)
 
 ## Resources
 * [Merchant](/doc/merchant.md)
