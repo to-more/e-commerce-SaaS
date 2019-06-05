@@ -4,13 +4,13 @@ A merchant of the e-commerce system.
 
 Properties
 ----------
-| Name                                         | Description                                | Required
-| -------------------------------------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------
-| id                                           | Unique numeric identifier for merchant     |  yes 
-| name                                         | Name of merchant                           |  yes
-| email                                        | E-mail of the merchant                     |  yes
-| phone                                        | Phone number of the merchant               |  yes
-| address                                      | Address of the customer                    |  yes
+| Name                                         | Description                                | Type    | Required
+| -------------------------------------------- | ------------------------------------------ | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------
+| id                                           | Unique numeric identifier for merchant     |  Number |  yes 
+| name                                         | Name of merchant                           |  String |  yes
+| email                                        | E-mail of the merchant                     |  String |  yes
+| phone                                        | Phone number of the merchant               |  String |  yes
+| address                                      | Address of the customer                    |  String |  yes
 
 
 ### Merchant sub resources
@@ -21,11 +21,11 @@ A purchase of the merchant to register
 
 Properties
 ----------
-| Name                                         | Description                                | Required
-| -------------------------------------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------
-| id                                           | Unique numeric identifier for sale         |  yes 
-| product                                      | Name of the product sold                   |  yes
-| amount                                       | Amount of the sale                         |  yes
+| Name                                         | Description                                | Type    | Required
+| -------------------------------------------- | ------------------------------------------ | ------- | -------------------------------------------------------------------------------------------------------------------------------------------
+| id                                           | Unique numeric identifier for sale         | Numeric |  yes 
+| product                                      | Name of the product sold                   | String  |  yes
+| amount                                       | Amount of the sale                         | Float   |  yes
 
 ### Plan
 
@@ -33,11 +33,11 @@ A plan to associate to the merchant
 
 Properties
 ----------
-| Name                                         | Description                                | Required
-| -------------------------------------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------
-| id                                           | Unique numeric identifier for plan         |  yes 
-| name                                         | Name of the plan                           |  yes
-| fee                                          | Fee to apply on the sale                   |  yes
+| Name                                         | Description                                | Type      | Required
+| -------------------------------------------- | ------------------------------------------ | --------- | -----------------------------------------------------------------------------------------------------------------------------------------
+| id                                           | Unique numeric identifier for plan         |  Numeric  |    yes 
+| name                                         | Name of the plan                           |  String   |    yes
+| fee                                          | Fee to apply on the sale                   |  Float    |    yes
 
 
 Response codes
