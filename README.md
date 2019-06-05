@@ -1,15 +1,13 @@
-# [Link al problema](https://github.com/TiendaNube/java-integration-engineer-test0)
+# [Link to the problem](https://github.com/TiendaNube/java-integration-engineer-test0)
 
 
 # Solution
+* [REST Resources](/doc/merchant.md)
 * [Stack](#stack)
 * [Build](#gradle-build)
 * [Docker build/run](#docker-build-and-run)
 * [Test](#run-test)
 * [Tech and design concerns](#tech-and-design-concerns)
-
-## Resources
-* [Merchant](/doc/merchant.md)
 
 ## Stack
  * kotlin 1.3
@@ -24,7 +22,7 @@
 
 ## Gradle build
 
-To build the project with gradle in the root directory it should execute the build task
+To build the project with gradle in the root directory it should be executed the gradle build task
 
 ```bash
 
@@ -43,16 +41,16 @@ To run test separately to the build run the gradle tasks test
 
 ## Docker build and run
 
-To build the project with docker it should execute de script Build.sh receives an optional parameter the root director otherwise the value is $PWD
+To build the project with docker it should be executed de script Build.sh. The script receives an optional parameter the root directory of the project otherwise the value is $PWD
 
 ```bash
 sh Build.sh $root_dir
 ``` 
-The above script does:
+#### The previous script does:
  * build an image of postgreSQL with the schema created
  * build an image with spring boot jar, the merchant REST API
  
-To run the database and the spring boot application run
+#### To run the database and the spring boot application execute
 
 ```bash
 sh Run.sh
