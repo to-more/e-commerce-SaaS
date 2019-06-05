@@ -48,7 +48,7 @@ To build the project with docker it should be executed de script Build.sh. The s
 ```bash
 sh Build.sh $root_dir
 ``` 
-The above script does:
+The previous script does:
  * build an image of postgreSQL with the schema created
  * build an image with spring boot jar, the merchant REST API
  
