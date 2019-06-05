@@ -8,7 +8,7 @@
 * [Consideraciones técnicas](#consideraciones-de-diseño-y-técnicas)
 
 ## Resources
-* [Merchant](/blob/master/doc/merchant.md)
+* [Merchant](/doc/merchant.md)
 
 ## Stack
  * kotlin 1.3
