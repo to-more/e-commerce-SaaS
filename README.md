@@ -24,7 +24,7 @@
 
 ## Gradle build
 
-To build the project with gradle in the root directory it should execute the build task
+To build the project with gradle in the root directory it should be executed the gradle build task
 
 ```bash
 
@@ -43,7 +43,7 @@ To run test separately to the build run the gradle tasks test
 
 ## Docker build and run
 
-To build the project with docker it should execute de script Build.sh receives an optional parameter the root director otherwise the value is $PWD
+To build the project with docker it should be executed de script Build.sh. The script receives an optional parameter the root directory of the project otherwise the value is $PWD
 
 ```bash
 sh Build.sh $root_dir
