@@ -52,7 +52,7 @@ sh Build.sh $root_dir
  * build an image of postgreSQL with the schema created
  * build an image with spring boot jar, the merchant REST API
  
-To run the database and the spring boot application run
+#### To run the database and the spring boot application execute
 
 ```bash
 sh Run.sh
