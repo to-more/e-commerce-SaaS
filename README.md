@@ -2,11 +2,12 @@
 
 
 # Solución
-* [Stack](/#stack)
-* [Build](/#stack)
-* [Test](/#stack)
-* [Consideraciones técnicas](/#stack)
-* [Consideraciones técnicas](/#stack)
+* [Stack](#stack)
+* [Build](#buildear-proyecto)
+* [Test](#correr-test)
+* [Consideraciones técnicas](#consideraciones-de-diseño-y-técnicas)
+
+
 ## Stack
  * kotlin 1.3
  * spring-boot 2
