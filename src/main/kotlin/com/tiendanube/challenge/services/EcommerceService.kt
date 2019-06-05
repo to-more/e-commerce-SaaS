@@ -31,10 +31,10 @@ class EcommerceService {
     val logger = LoggerFactory.getLogger(EcommerceService::class.java)
   }
 
-  fun saveMerchant(merchantDto: MerchantDto): Either<Throwable, Long> = logger.benchmark("Create merchant $merchantDto") {
+  fun saveMerchant(merchantDto: MerchantDto): Either<Throwable, Merchant> = logger.benchmark("Create merchant $merchantDto") {
     binding {
       val model = merchantDto.asModel()
-      val (merchant) = Try {
+      Try {
         merchantDao.create (
           model.id,
           model.name,
@@ -46,8 +46,8 @@ class EcommerceService {
           model.credit,
           model.plan?.id
         )
-      }
-      merchant
+      }.bind()
+      model
     }.toEither {
       when {
         it is DuplicateKeyException -> MerchantAlreadyExistException("There is already a merchant registered with the same email ${merchantDto.email} and phone ${merchantDto.phone}")
@@ -85,7 +85,8 @@ class EcommerceService {
   ): Either<Throwable, Merchant> = logger.benchmark("call merchant dao with $merchantId") {
     binding {
       val (merchant) = Try { merchantDao.getById(merchantId) }
-      merchant
+      val (sales) = Try { merchantDao.getSales(merchantId) }
+      merchant.copy(sales = ArrayList(sales))
     }.toEither {
       when {
         it is EmptyResultDataAccessException -> NoResourceFoundException(it.message?: "Resource not found")
@@ -130,7 +131,7 @@ class EcommerceService {
     }, {
       Try {
         merchantDao.updatePlan(it.id, plan.id)
-        it.copy(plan = plan)
+        it.copy(plan = merchantDao.getPlan(plan.id))
       }.toEither()
     })
   }

@@ -1,6 +1,8 @@
 package com.tiendanube.challenge.daos
 
 import com.tiendanube.challenge.model.Merchant
+import com.tiendanube.challenge.model.Plan
+import com.tiendanube.challenge.model.Sale
 import org.springframework.data.jdbc.repository.query.Modifying
 import org.springframework.data.jdbc.repository.query.Query
 import org.springframework.data.repository.CrudRepository
@@ -61,17 +63,19 @@ interface MerchantDao: CrudRepository<Merchant, Long> {
      merchants.credit        AS credit,
      PLAN.id                 AS plan_id,
      PLAN.NAME               AS plan_name,
-     PLAN.fee                AS plan_fee,
-     sale.id                 AS sales_id,
-     sale.product            AS sales_product,
-     sale.amount             AS sales_amount,
-     sale.creation_date      AS sales_creation_date
+     PLAN.fee                AS plan_fee
     FROM merchants
      LEFT JOIN plans AS PLAN ON PLAN.id = merchants.plan_id
-     LEFT JOIN sales AS sale ON sale.merchant_id = merchants.id
     WHERE  merchants.id = :id
-    """)
+    """,
+    rowMapperClass = MerchantRowMapper::class
+  )
   fun getById(@Param("id") id: Long): Merchant
+
+  @Query("""
+    SELECT * FROM SALES WHERE MERCHANT_ID=:id
+  """)
+  fun getSales(@Param("id") id: Long): List<Sale>
 
   @Modifying
   @Query("""
@@ -103,4 +107,9 @@ interface MerchantDao: CrudRepository<Merchant, Long> {
     DELETE FROM merchants WHERE id = :idMerchant
   """)
   fun deleteMerchant(@Param("idMerchant") idMerchant: Long): Long
+
+  @Query("""
+    select * from plans where id=:id
+  """)
+  fun getPlan(@Param("id") id: Long): Plan
 }
