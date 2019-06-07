@@ -36,8 +36,6 @@ Properties
 | Name                                         | Description                                | Type      | Required
 | -------------------------------------------- | ------------------------------------------ | --------- | -----------------------------------------------------------------------------------------------------------------------------------------
 | id                                           | Unique numeric identifier for plan         |  Numeric  |    yes 
-| name                                         | Name of the plan                           |  String   |    yes
-| fee                                          | Fee to apply on the sale                   |  Float    |    yes
 
 
 Response codes
@@ -48,7 +46,7 @@ Response codes
 | 201                                          | Indicates a successful creation
 | 200                                          | Success for GET, DELETE, PUT
 | 404                                          | Error when a resource is not found for GET, DELETE, PUT
-| 409                                          | Conflicting creation, indicates that a merchant already exist with the same phone or email 
+| 409                                          | Conflicting creation or update, indicates that a merchant already exist with the same phone or email also its used when try to change the plan for a merchant and that plan is not in the system. 
 | 400                                          | Malformed  request or for invalid constraints
 
 
@@ -223,9 +221,7 @@ Update merchant plan
 
 ```json
 { 
-  "id": 1, 
-  "name": "Medium",   
-  "fee": 0.5 
+  "id": 1
 }
 ```
 ##### Response
