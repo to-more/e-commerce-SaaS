@@ -2,7 +2,7 @@ package com.tiendanube.challenge.controllers
 
 import com.tiendanube.challenge.dtos.ErrorResponse
 import com.tiendanube.challenge.exceptions.BadRequestException
-import com.tiendanube.challenge.exceptions.MerchantAlreadyExistException
+import com.tiendanube.challenge.exceptions.ConflictingDataException
 import com.tiendanube.challenge.exceptions.NoResourceFoundException
 import com.tiendanube.challenge.extensions.logError
 import com.tiendanube.challenge.extensions.logWarn
@@ -29,7 +29,7 @@ class ErrorHandler {
       logWarn(logger, e)
       ResponseEntity.notFound().build()
     }
-    is MerchantAlreadyExistException -> {
+    is ConflictingDataException -> {
       logWarn(logger, e)
       ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorResponse(GENERIC_ERROR_CODE, e.message))
     }
