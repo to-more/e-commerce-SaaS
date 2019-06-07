@@ -181,6 +181,7 @@ class EcommerceServiceSpec: BehaviorSpec({
 
       then("sale added with no errors") {
         doReturn(merchant).`when`(merchantDao).getById(1)
+        doReturn(plan).`when`(merchantDao).getPlan(1)
         doReturn(1L).`when`(merchantDao).updatePlan(merchant.id, plan.id)
         shouldNotThrow<Throwable> {
           ecommerceService.updatePlan(1L, plan).isRight() shouldBe true
@@ -195,8 +196,9 @@ class EcommerceServiceSpec: BehaviorSpec({
         }
       }
 
-      then("add sale with errors") {
+      then("add plan with errors") {
         doReturn(merchant).`when`(merchantDao).getById(1)
+        doReturn(plan).`when`(merchantDao).getPlan(1)
         doThrow(QueryTimeoutException::class.java)
           .`when`(merchantDao).updatePlan(merchant.id, plan.id)
         shouldNotThrow<Throwable> {

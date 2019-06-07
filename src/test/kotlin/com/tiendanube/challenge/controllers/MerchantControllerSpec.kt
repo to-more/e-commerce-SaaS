@@ -196,7 +196,7 @@ class MerchantControllerSpec: BehaviorSpec({
       }
     }
     `when`("update plan of merchant"){
-      val planUpdate = Plan(1, "Medium", 0.5)
+      val planUpdate = Plan(1, "", 0.0)
       then("update plan") {
         doReturn(Either.right(merchant)).`when`(ecommerceService).updatePlan(1L, planUpdate)
         shouldNotThrow<Throwable> {
@@ -204,9 +204,7 @@ class MerchantControllerSpec: BehaviorSpec({
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
               {
-              "id": 1,
-              "name": "Medium",
-              "fee": 0.5
+              "id": 1
               }
               """)).andReturn().response
           response.status shouldBe HttpStatus.OK.value()
@@ -219,9 +217,7 @@ class MerchantControllerSpec: BehaviorSpec({
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
               {
-              "id": 1,
-              "name": "Medium",
-              "fee": 0.5
+              "id": 1
               }
               """)).andReturn().response
           response.status shouldBe HttpStatus.NOT_FOUND.value()
@@ -233,9 +229,7 @@ class MerchantControllerSpec: BehaviorSpec({
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
               {
-              "id": 1,
-              "name": "",
-              "fee": 0.5
+              "id": null
               }
               """)).andReturn().response
           response.status shouldBe HttpStatus.BAD_REQUEST.value()
