@@ -2,7 +2,7 @@
 
 A merchant of the e-commerce system.
 
-Properties
+## Properties
 ----------
 | Name                                         | Description                                | Type    | Required
 | -------------------------------------------- | ------------------------------------------ | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------
@@ -13,13 +13,13 @@ Properties
 | address                                      | Address of the customer                    |  String |  yes
 
 
-### Merchant sub resources
+## Merchant sub resources
 
-### Sale
+## Sale
 
 A purchase of the merchant to register 
 
-Properties
+### Properties
 ----------
 | Name                                         | Description                                | Type    | Required
 | -------------------------------------------- | ------------------------------------------ | ------- | -------------------------------------------------------------------------------------------------------------------------------------------
@@ -27,18 +27,18 @@ Properties
 | product                                      | Name of the product sold                   | String  |  yes
 | amount                                       | Amount of the sale                         | Float   |  yes
 
-### Plan
+## Plan
 
 A plan to associate to the merchant
 
-Properties
+### Properties
 ----------
 | Name                                         | Description                                | Type      | Required
 | -------------------------------------------- | ------------------------------------------ | --------- | -----------------------------------------------------------------------------------------------------------------------------------------
 | id                                           | Unique numeric identifier for plan         |  Numeric  |    yes 
 
 
-Response codes
+## Response codes
 ----------
 
 | Code                                         | Description
