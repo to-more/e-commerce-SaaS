@@ -263,3 +263,20 @@ Update merchant plan
   "credit": 0
 }
 ```
+
+GET /merchants/{id}/bill
+
+Get a merchant's bill for the current month
+
+##### Response
+
+```HTTP/1.1 200```
+
+```json
+{
+  "code": "3860b686-283d-4f6e-bb04-c6be0c71d70b",
+  "creation_date": "2019-06-07",
+  "total_amount": 1756.3999999999999,
+  "total_fee": 35.128
+}
+```
