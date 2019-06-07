@@ -1,7 +1,6 @@
 package com.tiendanube.challenge.dtos
 
 import com.tiendanube.challenge.model.Plan
-import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
 /**
@@ -9,12 +8,7 @@ import javax.validation.constraints.NotNull
  */
 data class PlanDto(
   @field:NotNull
-  val id: Long?,
-  @field:NotNull
-  @field:NotEmpty
-  val name: String?,
-  @field:NotNull
-  val fee: Double?
+  val id: Long?
 ) {
-  fun asModel() = Plan(id?:0, name?:"", fee?:0.0)
+  fun asModel() = Plan(id?:0, "", 0.0)
 }

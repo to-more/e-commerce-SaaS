@@ -3,7 +3,10 @@ package com.tiendanube.challenge.exceptions
 import org.springframework.validation.BindingResult
 import org.springframework.validation.FieldError
 
-data class MerchantAlreadyExistException(override val message: String): RuntimeException(message)
+open class ConflictingDataException(override val message: String): RuntimeException(message)
+data class PlanNotFoundException(override val message: String): ConflictingDataException(message)
+data class MerchantAlreadyExistException(override val message: String): ConflictingDataException(message)
+
 data class NoResourceFoundException(override val message: String): RuntimeException(message)
 data class BadRequestException(val bindingResult: BindingResult) : RuntimeException() {
   override val message: String

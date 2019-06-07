@@ -7,6 +7,7 @@ import com.tiendanube.challenge.daos.MerchantDao
 import com.tiendanube.challenge.dtos.MerchantDto
 import com.tiendanube.challenge.exceptions.MerchantAlreadyExistException
 import com.tiendanube.challenge.exceptions.NoResourceFoundException
+import com.tiendanube.challenge.exceptions.PlanNotFoundException
 import com.tiendanube.challenge.extensions.benchmark
 import com.tiendanube.challenge.extensions.percentage
 import com.tiendanube.challenge.model.Bill
@@ -134,10 +135,18 @@ class EcommerceService {
     findById(merchantId).fold({
       Either.left(it)
     }, {
-      Try {
-        merchantDao.updatePlan(it.id, plan.id)
-        it.copy(plan = merchantDao.getPlan(plan.id))
-      }.toEither()
+      binding {
+        val (planFromDB) = Try {
+          merchantDao.getPlan(plan.id)
+        }
+        Try { merchantDao.updatePlan(it.id, planFromDB.id) }.bind()
+        it.copy(plan = planFromDB)
+      }.toEither {
+        when(it){
+          is EmptyResultDataAccessException -> PlanNotFoundException("The plan ${plan.id} is not registered on the system")
+          else -> it
+        }
+      }
     })
   }
 
